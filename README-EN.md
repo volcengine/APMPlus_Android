@@ -1,8 +1,8 @@
 [中文版本](README.md)
 # ApmInsightDemo
 This is an example of APMInsight SDK. Enter official website to read the introduction of SDK capabilities and access. 
-* [ApmInsight Android Official Website](https://rangers.bytedance.net/help/doc?lid=6438&did=78965)
-* [ApmInsight Android Q&A](https://rangers.bytedance.net/help/doc?lid=6438&did=93509)
+1. [ApmInsight Android Official Website](https://rangers.bytedance.net/help/doc?lid=6438&did=78965)
+2. [ApmInsight Android Q&A](https://rangers.bytedance.net/help/doc?lid=6438&did=93509)
 
 ### Usage
 1. The demo APP has integrated all capabilities of APMInsight.
@@ -13,5 +13,5 @@ This is an example of APMInsight SDK. Enter official website to read the introdu
 * Contact us to grant permission for you.  *chujun.icy@bytedance.com*  *wangtao.steven@bytedance.com*
 * You will receive an email when you get access.
 
-## License
+### License
 APMInsight_Android is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
