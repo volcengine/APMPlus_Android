@@ -63,6 +63,10 @@ public class App extends Application {
         builder.enableWebViewMonitor(true);
         //内存监控
         builder.memoryMonitor(true);
+        //控制是否打开电量监控
+        builder.batteryMonitor(true);
+        //支持用户自定义user_id把平台数据和自己用户关联起来，可以不配置
+        builder.userId("user_id");
         //配置自定义上报地址，私有化部署才需要配置
 //        builder.defaultReportDomain("www.xxx.com");
 
