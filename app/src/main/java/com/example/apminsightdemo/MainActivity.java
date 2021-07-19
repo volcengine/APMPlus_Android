@@ -7,11 +7,13 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.bytedance.apm.insight.ApmInsightAgent;
 import com.bytedance.memory.test.OOMMaker;
 import com.example.apminsightdemo.fragment.ListFragment;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.Call;
@@ -115,6 +117,20 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void click(View view) {
                 OOMMaker.createOOM();
+            }
+        }));
+        lvItemList.add(new ListFragment.LvItem("事件上报模拟", new ListFragment.OnClick() {
+            @Override
+            public void click(View view) {
+                HashMap<String, String> dimension = new HashMap<>();
+                //维度值
+                dimension.put("key1", "value1");
+                dimension.put("key2", "value2");
+                HashMap<String, Double> metric = new HashMap<>();
+                //指标值
+                metric.put("metric1", (double) 10);
+                metric.put("metric2", 8.8);
+                ApmInsightAgent.monitorEvent("event1", dimension, metric);
             }
         }));
 

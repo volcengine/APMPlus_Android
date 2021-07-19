@@ -36,15 +36,15 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //ApmInsight稳定性监控组件
-    implementation('com.volcengine:apm_insight_crash:1.2.4') {
+    implementation('com.volcengine:apm_insight_crash:1.3.7') {
         exclude group: 'com.bytedance.applog'
     }
     //ApmInsight性能监控组件
-    implementation('com.volcengine:apm_insight:1.3.12') {
+    implementation('com.volcengine:apm_insight:1.3.17') {
         exclude group: 'com.bytedance.applog'
     }
     //依赖的Rangers 组件
-    implementation 'com.bytedance.applog:RangersAppLog-All-cn:5.2.6'
+    implementation 'com.bytedance.applog:RangersAppLog-All-cn:6.2.0'
 
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 

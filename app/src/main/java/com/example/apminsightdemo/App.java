@@ -7,6 +7,7 @@ import com.apm.insight.MonitorCrash;
 import com.apm.insight.NpthInit;
 import com.bytedance.apm.insight.ApmInsight;
 import com.bytedance.apm.insight.ApmInsightInitConfig;
+import com.bytedance.apm.insight.IDynamicParams;
 import com.bytedance.applog.AppLog;
 import com.bytedance.applog.ILogger;
 import com.bytedance.applog.InitConfig;
@@ -67,6 +68,32 @@ public class App extends Application {
         builder.batteryMonitor(true);
         //支持用户自定义user_id把平台数据和自己用户关联起来，可以不配置
         builder.userId("user_id");
+        //设置数据和AppLog数据打通，设备标识did必填。1.3.16版本增加接口
+        builder.setDynamicParams(new IDynamicParams() {
+            @Override
+            public String getUserUniqueID() {
+                //可选。依赖AppLog可以通过AppLog.getUserUniqueID()获取，否则可以返回null。
+                return AppLog.getUserUniqueID();
+            }
+
+            @Override
+            public String getAbSdkVersion() {
+                //可选。如果依赖AppLog可以通过AppLog.getAbSdkVersion()获取，否则可以返回null。
+                return AppLog.getAbSdkVersion();
+            }
+
+            @Override
+            public String getSsid() {
+                //可选。依赖AppLog可以通过AppLog.getSsid()获取，否则可以返回null。
+                return AppLog.getSsid();
+            }
+
+            @Override
+            public String getDid() {
+                //必填。设备的唯一标识。如果依赖AppLog可以通过 AppLog.getDid() 获取。也可以自己生成。
+                return AppLog.getDid();
+            }
+        });
         //配置自定义上报地址，私有化部署才需要配置
 //        builder.defaultReportDomain("www.xxx.com");
 
