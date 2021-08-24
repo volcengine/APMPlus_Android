@@ -1,10 +1,12 @@
 package com.example.apminsightdemo;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.apm.insight.AttachUserData;
+import com.apm.insight.CrashType;
 import com.apm.insight.MonitorCrash;
-import com.apm.insight.NpthInit;
 import com.bytedance.apm.insight.ApmInsight;
 import com.bytedance.apm.insight.ApmInsightInitConfig;
 import com.bytedance.apm.insight.IDynamicParams;
@@ -41,17 +43,29 @@ public class App extends Application {
      * ApmInsight崩溃监控初始化
      */
     private void initCrash() {
-        mMonitorCrash = NpthInit.init(this, config);
+        MonitorCrash crash = MonitorCrash.init(this, "187277", 1, "1.0.0").setCustomDataCallback(new AttachUserData() {
+            @Nullable
+            @Override
+            public Map<? extends String, ? extends String> getUserData(CrashType type) {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("app_custom", "app_value");
+                return map;
+            }
+        });
+        crash.config().setChannel("channel")
+                //必填。设备的唯一标识。如果依赖AppLog可以通过 AppLog.getDid() 获取。也可以自己生成。
+                .setDeviceId(AppLog.getDid());
+        // crash.setReportUrl("www.xxx.com"); // 私有化部署：私有化部署才配置上报地址
+        crash.addTags("key", "value"); // 自定义筛选tag, 按需添加、可多次覆盖
     }
 
     /**
      * ApmInsight性能监控初始化
      */
     private void initApmInsight() {
-
         ApmInsightInitConfig.Builder builder = ApmInsightInitConfig.builder();
         //分配的aid，当前配置的为平台的测试aid,查看上报数据效果，可以联系客户经理添加平台权限
-        builder.aid("194767");
+        builder.aid("187277");
         //卡顿功能
         builder.blockDetect(true);
         //严重卡顿功能
@@ -68,6 +82,10 @@ public class App extends Application {
         builder.batteryMonitor(true);
         //支持用户自定义user_id把平台数据和自己用户关联起来，可以不配置
         builder.userId("user_id");
+        //私有化部署：配置数据上报的域名 （私有化部署才需要配置，内部有默认域名），测试支持设置http://www.xxx.com  内部默认是https协议，可以直接配置域名
+//        builder.defaultReportDomain("www.xxx.com");
+        //设置渠道。1.3.16版本增加接口
+        builder.channel("google play");
         //设置数据和AppLog数据打通，设备标识did必填。1.3.16版本增加接口
         builder.setDynamicParams(new IDynamicParams() {
             @Override
@@ -94,8 +112,6 @@ public class App extends Application {
                 return AppLog.getDid();
             }
         });
-        //配置自定义上报地址，私有化部署才需要配置
-//        builder.defaultReportDomain("www.xxx.com");
 
         ApmInsight.getInstance().init(this, builder.build());
 
@@ -107,10 +123,13 @@ public class App extends Application {
      */
     private void initAppLog() {
         /* 初始化开始 */
-        config = new InitConfig("194767", "your_channel"); // appid和渠道，appid如不清楚请联系客户成功经理
+        config = new InitConfig("187277", "your_channel"); // appid和渠道，appid如不清楚请联系客户成功经理
 
         //上报域名只支持中国
         config.setUriConfig(UriConstants.DEFAULT);
+
+        //私有化部署需要配置为自己的上报域名
+//        config.setUriConfig(UriConfig.createByDomain("https://www.xxx.com", null));
 
         // 是否在控制台输出日志，可用于观察用户行为日志上报情况
         config.setLogger(new ILogger() {
