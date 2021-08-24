@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.apm.insight.log.VLog;
 import com.bytedance.apm.insight.ApmInsightAgent;
 import com.bytedance.memory.test.OOMMaker;
 import com.example.apminsightdemo.fragment.ListFragment;
@@ -48,6 +49,10 @@ public class MainActivity extends FragmentActivity {
 
 
     private void initData() {
+        for (int i=0;i<10000;i++){
+            VLog.d("vlog","vlog:"+i);
+        }
+
         List<ListFragment.LvItem> lvItemList = new ArrayList<>();
         lvItemList.add(new ListFragment.LvItem("崩溃模拟", new ListFragment.OnClick() {
             @Override
