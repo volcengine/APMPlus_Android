@@ -2,7 +2,7 @@
 # ApmInsightDemo
 This is an example of APMInsight SDK. Enter official website to read the introduction of SDK capabilities and access. 
 1. [ApmInsight Android Official Website](https://www.volcengine.com/docs/6431/68852)
-2. [ApmInsight Android Q&A](https://rangers.bytedance.net/help/doc?lid=6438&did=93509)
+2. [ApmInsight Android Q&A](https://www.volcengine.com/docs/6431/75257)
 
 ### Usage
 1. The demo APP has integrated all capabilities of APMInsight.

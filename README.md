@@ -2,7 +2,7 @@
 # ApmInsightDemo
 这是 APMInsight Sdk的使用示例. 下面链接有详细的Sdk接入和使用说明
 1. [ApmInsight Android 接入文档](https://www.volcengine.com/docs/6431/68852)
-2. [ApmInsight Android Q&A](https://rangers.bytedance.net/help/doc?lid=6438&did=93509)
+2. [ApmInsight Android Q&A](https://www.volcengine.com/docs/6431/75257)
 
 ### Demo使用说明
 1. 这个demo已经接入了所有ApmInsight的性能和稳定性监控的能力。
