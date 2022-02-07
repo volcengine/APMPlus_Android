@@ -35,9 +35,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //apm性能组件
-    implementation 'com.volcengine:apm_insight:1.4.1.cn'
+    implementation 'com.volcengine:apm_insight:1.4.5.cn'
     //apm稳定性组件
-    implementation 'com.volcengine:apm_insight_crash:1.4.1'
+    implementation 'com.volcengine:apm_insight_crash:1.4.3'
 
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 
@@ -65,7 +65,7 @@ ApmPlugin {
     okHttp3Switch = true
     // 只对白名单下的包进行插桩。可以填写自己的包名。不配置则不会插桩，影响网络监控也启动监控等功能。
     whiteList = [
-            "com.example"
+            "com"
     ]
     // 黑名单包下类不进行插桩，可以配置包名和类名。没有可以为空
     blackList = [

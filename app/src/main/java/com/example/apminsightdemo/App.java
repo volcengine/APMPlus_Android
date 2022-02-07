@@ -76,8 +76,8 @@ public class App extends Application {
         builder.batteryMonitor(true);
         //是否打印日志，注：线上release版本要配置为false
         builder.debugMode(true);
-        //支持用户自定义user_id把平台数据和自己用户关联起来，可以不配置
-        builder.userId("user_id");
+        //支持用户自定义user_id把平台数据和自己用户关联起来，可以不配置。1.4.5版本后使用setDynamicParams()方法通过getUserId()回调设置
+//        builder.userId("user_id");
         //私有化部署：配置数据上报的域名 （私有化部署才需要配置，内部有默认域名），测试支持设置http://www.xxx.com  默认是https协议
 //        builder.defaultReportDomain("www.xxx.com");
         //设置渠道。1.3.16版本增加接口
@@ -107,6 +107,12 @@ public class App extends Application {
             @Override
             public String getDid() {
                 //1.4.0版本及以上，可选，其他版本必填。设备的唯一标识，如果依赖AppLog可以通过 AppLog.getDid() 获取，也可以自己生成。
+                return null;
+            }
+
+            @Override
+            public String getUserId() {
+                //1.4.5.cn版本增加的接口
                 return null;
             }
         });
