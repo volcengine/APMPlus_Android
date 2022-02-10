@@ -58,7 +58,6 @@ public class App extends Application {
      * ApmInsight性能监控初始化
      */
     private void initApmInsight() {
-
         ApmInsightInitConfig.Builder builder = ApmInsightInitConfig.builder();
         //设置分配的appid
         builder.aid("187277");
@@ -84,6 +83,8 @@ public class App extends Application {
         builder.channel("google play");
         //打开自定义日志回捞能力，1.4.1版本新增接口
         builder.enableLogRecovery(true);
+        //控制是否打开cpu监控能力
+        builder.cpuMonitor(true);
         //设置数据和Rangers Applog数据打通，设备标识did必填。1.3.16版本增加接口
         builder.setDynamicParams(new IDynamicParams() {
             @Override
