@@ -73,10 +73,10 @@ ApmPlugin {
 }
 
 
-apply from: 'http://sf3-ttcdn-tos.pstatp.com/obj/apminsight-symbolicate/apminsight.gradle'
+apply from: 'https://sf3-ttcdn-tos.pstatp.com/obj/apminsight-symbolicate/apminsight.gradle'
 apminsightConfig {
-    api_token = "" // 联系开发同学获取到的对应appId的一个token,私有化部署不用填
-    api_key = 0 // 联系开发同学获取到的对应appId的一个key,私有化部署不用填
+    api_token = "" // 从平台的 全部功能->符号表管理->系统选择 Android->下面可以看到api key和api token。或者联系开发同学获取到的对应appId的一个token,私有化部署不用填
+    api_key = 0 // 从平台的 全部功能->符号表管理->系统选择 Android->下面可以看到api key和api token。或者联系开发同学获取到的对应appId的一个key,私有化部署不用填
     aid = 187277 // 平台上的appid
 //    update_version_code = -1 // 默认不用写这一行, 除非你初始化时候手动指定了非标准版本号（或SDK版本号）; 此处一定要与apmInsight初始化的版本号一致
 //    mappingUrl = "https://www.xxx.com" // 默认不用写这一行，如果是私有化，这里配置私有化域名
