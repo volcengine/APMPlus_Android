@@ -131,4 +131,5 @@ public class App extends Application {
         //初始化自定日志，配置自定义日志最大占用磁盘，内部一般配置20,代表最大20M磁盘占用。1.4.1版本开始存在这个api
         VLog.init(this, 20);
     }
+
 }
