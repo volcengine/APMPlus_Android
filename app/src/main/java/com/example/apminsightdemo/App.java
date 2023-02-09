@@ -94,6 +94,8 @@ public class App extends Application {
         builder.cpuMonitor(true);
         //打开磁盘监控
         builder.diskMonitor(true);
+        //打开流量监控
+        builder.trafficMonitor(true);
         //设置数据和Rangers Applog数据打通，设备标识did必填。1.3.16版本增加接口
         builder.setDynamicParams(new IDynamicParams() {
             @Override
