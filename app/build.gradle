@@ -35,9 +35,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //apm性能组件
-    implementation 'com.volcengine:apm_insight:1.4.10.cn-rc.0'
+    implementation 'com.volcengine:apm_insight:1.5.2.cn'
     //apm稳定性组件
-    implementation 'com.volcengine:apm_insight_crash:1.4.6-rc.17'
+    implementation 'com.volcengine:apm_insight_crash:1.4.8'
 
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 
@@ -73,7 +73,7 @@ ApmPlugin {
 }
 
 
-apply from: 'https://sf3-ttcdn-tos.pstatp.com/obj/apminsight-symbolicate/apminsight.gradle'
+apply from: 'https://lf-apmplus.volccdn.com/obj/apminsight-symbolicate/apminsight.gradle'
 apminsightConfig {
     api_token = "" // 从平台的 全部功能->符号表管理->系统选择 Android->下面可以看到api key和api token。或者联系开发同学获取到的对应appId的一个token,私有化部署不用填
     api_key = 0 // 从平台的 全部功能->符号表管理->系统选择 Android->下面可以看到api key和api token。或者联系开发同学获取到的对应appId的一个key,私有化部署不用填

@@ -46,7 +46,7 @@ public class HybridTestActivity extends Activity {
 
 
     private void loadUrl() {
-        final String url = "https://datarangers.com.cn/apminsight/demo/demo/rangers-site-sdk-npm";
+        final String url = "https://demo-slardar.web.bytedance.net/demo/trigger-event";
         //需要配置监控url
         WebViewMonitorHelper.getInstance().onLoadUrl(webView, url);
         webView.loadUrl(url);
