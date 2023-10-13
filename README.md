@@ -2,7 +2,7 @@
 # APMPlusDemo
 这是 APMPlus Sdk的使用示例. 下面链接有详细的Sdk接入和使用说明
 1. [APMPlus Android 接入文档](https://www.volcengine.com/docs/6431/68852)
-2. [APMPlus Android Q&A](https://www.volcengine.com/docs/6431/75257)
+2. [APMPlus Android Q&A](https://www.volcengine.com/docs/6431/127838)
 
 ### Demo使用说明
 1. 这个demo已经接入了所有APMPlus的性能和稳定性监控的能力。
