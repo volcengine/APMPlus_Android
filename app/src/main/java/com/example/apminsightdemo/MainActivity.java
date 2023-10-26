@@ -1,5 +1,7 @@
 package com.example.apminsightdemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -38,6 +40,7 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
         initFragment();
         initData();
+        showDialog();
     }
 
 
@@ -168,6 +171,34 @@ public class MainActivity extends FragmentActivity {
             }
         });
         return "";
+    }
+
+    /**
+     * 模拟用户协议和隐私协议弹窗，用户点击同一后开启监控
+     */
+    private void showDialog() {
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this)
+                //标题
+                .setTitle("个人信息保护")
+                //内容
+                .setMessage("同意《用户协议》和《隐私政策》后开启监控")
+                //图标
+                .setIcon(R.mipmap.ic_launcher)
+                .setPositiveButton("同意", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        App.startMonitor();
+                    }
+                })
+                .setNegativeButton("不同意", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create();
+        alertDialog.show();
+
     }
 
 }

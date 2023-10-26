@@ -21,6 +21,7 @@ public class App extends Application {
     public static final String TAG = App.class.getSimpleName();
 
     public static MonitorCrash mMonitorCrash;
+    private static boolean hasStart;
 
     @Override
     public void onCreate() {
@@ -59,19 +60,13 @@ public class App extends Application {
 //              })
                 .exitType(ExitType.EXCEPTION) //上报应用退出原因，EXCEPTION会过滤USER_REQUEST类型
                 .enableApmPlusLog(true) // 是否将崩溃信息等写入APMPlus日志，默认false
-//            .crashPortrait(true)  //是否开启崩溃防护，默认true
+//            .crashProtect(true)  //是否开启崩溃防护，默认true
                 .autoStart(false) // 是否在初始化时自动开启监控，默认为true
 //            .debugMode(true) //线下使用的日志开关，线上不要调用或设置为false
                 // 可选，添加pv事件的自定义tag，可以用来筛选崩溃率计算的分母数据
                 //.pageViewTags(<<Map<String, String>>>)
                 .build();
-        MonitorCrash monitorCrash = MonitorCrash.init(this, config);
-
-
-        // 启动监控，当初始化时autoStart传入false设置为初始化时不自动开启监控，需要在合适的位置调用start方法开启监控；如果初始化时未设置autoStart参数或者设置为true，将自动开启监控，不需要调用start方法。
-        if (monitorCrash != null) {
-            monitorCrash.start();
-        }
+        mMonitorCrash = MonitorCrash.init(this, config);
     }
 
     /**
@@ -80,6 +75,23 @@ public class App extends Application {
     private void initApmInsight() {
         //必须放到Application的onCreate里面，会注册监听生命周期，不涉及数据采集和隐私合规问题
         ApmInsight.getInstance().init(this);
+        //初始化自定日志，配置自定义日志最大占用磁盘，内部一般配置20,代表最大20M磁盘占用。1.4.1版本开始存在这个api
+        VLog.init(this, 20);
+    }
+
+    /**
+     * 在隐私合规后调用，开始采集数据启动监控
+     */
+    public static void startMonitor() {
+        if (hasStart) {
+            return;
+        }
+        hasStart = true;
+
+        // 如果初始化崩溃组件时未设置autoStart参数或者设置为true，将自动开启监控，不需要调用start方法。
+        if (mMonitorCrash != null) {
+            mMonitorCrash.start();
+        }
 
         //在同意隐私合规后调用
         ApmInsightInitConfig.Builder builder = ApmInsightInitConfig.builder();
@@ -158,9 +170,6 @@ public class App extends Application {
             }
         });
         ApmInsight.getInstance().start(builder.build());
-
-        //初始化自定日志，配置自定义日志最大占用磁盘，内部一般配置20,代表最大20M磁盘占用。1.4.1版本开始存在这个api
-        VLog.init(this, 20);
     }
 
 }

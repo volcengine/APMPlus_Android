@@ -37,7 +37,7 @@ dependencies {
     //apm性能组件
     implementation 'com.volcengine:apm_insight:1.5.2.cn'
     //apm稳定性组件
-    implementation 'com.volcengine:apm_insight_crash:1.4.8'
+    implementation 'com.volcengine:apm_insight_crash:1.4.9'
 
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 
