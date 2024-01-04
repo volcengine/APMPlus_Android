@@ -3,13 +3,13 @@ apply plugin: 'apm-plugin'
 
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 34
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         applicationId "com.example.apminsightdemo"
         minSdkVersion 18
-        targetSdkVersion 29
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
 
@@ -35,9 +35,13 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     //apm性能组件
-    implementation 'com.volcengine:apm_insight:1.5.2.cn'
-    //apm稳定性组件
-    implementation 'com.volcengine:apm_insight_crash:1.4.9'
+    implementation 'com.volcengine:apm_insight:1.5.3.cn'
+//    implementation 'com.volcengine:apm_insight:1.5.2.cn'
+//    //apm稳定性组件
+    implementation 'com.volcengine:apm_insight_crash:1.5.0'
+
+//    implementation 'com.volcengine:apm_insight:1.5.0.cn-rc.4'
+//    implementation 'com.volcengine:apm_insight_crash:1.4.7-rc.2'
 
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 

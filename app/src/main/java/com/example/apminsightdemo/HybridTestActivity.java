@@ -3,11 +3,10 @@ package com.example.apminsightdemo;
 import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
-import com.bytedance.android.monitor.webview.WebViewMonitorHelper;
-import com.bytedance.android.monitor.webview.WebViewMonitorWebChromeClient;
-import com.bytedance.android.monitor.webview.WebViewMonitorWebViewClient;
+import com.apmplus.hybrid.webview.HybridMonitorManager;
 
 /**
  * @author steven
@@ -23,7 +22,7 @@ public class HybridTestActivity extends Activity {
         webView = findViewById(R.id.web_view_root);
 
         configWebViewDebugMode();
-        customConfig();
+
         loadUrl();
 
     }
@@ -32,23 +31,21 @@ public class HybridTestActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
-    }
-
-    /**
-     * init view config
-     */
-    private void customConfig() {
-        //内部会使用TTLiveWebViewMonitorHelper
-        webView.setWebChromeClient(new WebViewMonitorWebChromeClient());
-        //内部会使用TTLiveWebViewMonitorHelper
-        webView.setWebViewClient(new WebViewMonitorWebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                super.onProgressChanged(view, newProgress);
+                //js加载
+                HybridMonitorManager.getInstance().onProgressChanged(view,newProgress);
+            }
+        });
     }
 
 
     private void loadUrl() {
         final String url = "https://demo-slardar.web.bytedance.net/demo/trigger-event";
         //需要配置监控url
-        WebViewMonitorHelper.getInstance().onLoadUrl(webView, url);
+        HybridMonitorManager.getInstance().onLoadUrl(webView,url);
         webView.loadUrl(url);
     }
 
