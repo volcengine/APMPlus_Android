@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.apmplus.hybrid.webview.HybridMonitorManager;
@@ -31,6 +32,9 @@ public class HybridTestActivity extends Activity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             WebView.setWebContentsDebuggingEnabled(true);
         }
+        WebSettings webSetting = webView.getSettings();
+        webSetting.setDomStorageEnabled(true);
+
         webView.setWebChromeClient(new WebChromeClient(){
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -43,7 +47,7 @@ public class HybridTestActivity extends Activity {
 
 
     private void loadUrl() {
-        final String url = "https://demo-slardar.web.bytedance.net/demo/trigger-event";
+        final String url = "https://www.volcengine.com/product/apmplus";
         //需要配置监控url
         HybridMonitorManager.getInstance().onLoadUrl(webView,url);
         webView.loadUrl(url);
