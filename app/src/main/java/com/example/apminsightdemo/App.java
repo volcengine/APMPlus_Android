@@ -40,19 +40,26 @@ public class App extends Application {
 
     public static MonitorCrash mMonitorCrash;
     private static boolean hasStart;
+    private static boolean hasInit;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        initCrash();
-        initApmInsight();
-        initSDKMonitor();
+    }
+
+    public static void init(Application application) {
+        if (hasInit) {
+            return;
+        }
+        hasInit = true;
+        initCrash(application);
+        initApmInsight(application);
     }
 
     /**
      * ApmInsight崩溃监控初始化
      */
-    private void initCrash() {
+    public static void initCrash(Application application) {
         MonitorCrash.Config config = MonitorCrash.Config.app(sSDKAid)
                 .token(sToken)// 设置鉴权token，可从平台应用信息处获取，token错误无法上报数据
 //              .versionCode(1)// 可选，默认取PackageInfo中的versionCode
@@ -85,23 +92,23 @@ public class App extends Application {
                 // 可选，添加pv事件的自定义tag，可以用来筛选崩溃率计算的分母数据
                 //.pageViewTags(<<Map<String, String>>>)
                 .build();
-        mMonitorCrash = MonitorCrash.init(this, config);
+        mMonitorCrash = MonitorCrash.init(application, config);
     }
 
     /**
      * ApmInsight性能监控初始化
      */
-    private void initApmInsight() {
+    public static void initApmInsight(Application application) {
         //必须放到Application的onCreate里面，会注册监听生命周期，不涉及数据采集和隐私合规问题
-        ApmInsight.getInstance().init(this);
+        ApmInsight.getInstance().init(application);
         //初始化自定日志，配置自定义日志最大占用磁盘，内部一般配置20,代表最大20M磁盘占用。1.4.1版本开始存在这个api
-        VLog.init(this, 20);
+        VLog.init(application, 20);
     }
 
     /**
      * 在隐私合规后调用，开始采集数据启动监控
      */
-    public static void startMonitor() {
+    public static void startMonitor(Application application) {
         if (hasStart) {
             return;
         }
@@ -195,9 +202,11 @@ public class App extends Application {
             }
         });
         ApmInsight.getInstance().start(builder.build());
+
+        initSDKMonitor(application);
     }
 
-    private void initSDKMonitor() {
+    public static void initSDKMonitor(Application application) {
         //初始化sdk崩溃监控
         MonitorCrash.Config config = MonitorCrash.Config.sdk(sdkAid)
 //                .token({{AppToken}})// 数据鉴权token，可从平台应用信息处获取，token错误无法上报数据
@@ -225,13 +234,13 @@ public class App extends Application {
                 //})
                 //.pageViewTags(map) // 设置PV自定义维度
                 .build();
-        MonitorCrash monitorCrash = MonitorCrash.initSDK(this, config);
+        MonitorCrash monitorCrash = MonitorCrash.initSDK(application, config);
 
         //初始化事件打点
         SDKEventInitConfig.Builder builder = SDKEventInitConfig.builder()
                 .aid(sdkAid)//平台的aid
                 .token(sdkToken)//平台的token
-                .context(getApplicationContext())//context
+                .context(application)//context
                 .channel("channel")//SDK渠道
                 .appVersion("1.0.0")//sdk 的版本号
                 .updateVersionCode("10001")//sdk 的小版本号
@@ -252,16 +261,15 @@ public class App extends Application {
                 });
         SDKEventManager.init(builder.build());
 
-
-        initCloud();
+        initCloud(application);
 
     }
 
-    private void initCloud(){
+    public static void initCloud(Application application) {
 
         //初始化Vlog日志实例。
-        VLogConfig vConfig = new VLogConfig.Builder(getApplicationContext())
-                .setLogDirPath(this.getFilesDir() + "/Vlog/" + sdkAid)//sSDKAid 为平台申请的aid
+        VLogConfig vConfig = new VLogConfig.Builder(application)
+                .setLogDirPath(application.getFilesDir() + "/Vlog/" + sdkAid)//sSDKAid 为平台申请的aid
                 .setMaxDirSize(5 * 1024 * 1024)  // max directory size
                 .setSubProcessMaxDirSizeRatio(0.1f) // max directory size of each instance for sub process
                 .setLogFileExpDays(14) // log file expired days
@@ -272,7 +280,7 @@ public class App extends Application {
         SDKCloudInitConfig.Builder builder = SDKCloudInitConfig.builder();
         builder.aid(sdkAid);//平台的aid
         builder.token(sdkToken);//平台的token
-        builder.context(getApplicationContext());//上下文context
+        builder.context(application);//上下文context
         builder.debugMode(true);//测试阶段设置为debug有log排查日志。线上配置为false
         builder.channel("channel");// sdk渠道
         builder.updateVersionCode("1.1.4");// sdk的版本号
