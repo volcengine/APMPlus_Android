@@ -47,7 +47,7 @@ public class HybridTestActivity extends Activity {
 
 
     private void loadUrl() {
-        final String url = "https://demo-slardar.web.bytedance.net/demo/trigger-event";
+        final String url = "https://www.volcengine.com/product/apmplus";
         //需要配置监控url
         HybridMonitorManager.getInstance().onLoadUrl(webView,url);
         webView.loadUrl(url);
