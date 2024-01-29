@@ -4,21 +4,13 @@ import android.app.Activity;
 import android.app.Application;
 import android.util.Log;
 
-import com.apm.applog.AppLog;
 import com.apm.insight.ExitType;
 import com.apm.insight.MonitorCrash;
 import com.apm.insight.log.VLog;
-import com.apm.insight.log.VLogConfig;
-import com.apmplus.sdk.cloudmessage.SDKCloudManager;
-import com.apmplus.sdk.event.SDKEventIDynamicParams;
-import com.apmplus.sdk.event.SDKEventInitConfig;
-import com.apmplus.sdk.event.SDKEventManager;
 import com.bytedance.apm.insight.ApmInsight;
 import com.bytedance.apm.insight.ApmInsightInitConfig;
 import com.bytedance.apm.insight.IActivityLeakListener;
 import com.bytedance.apm.insight.IDynamicParams;
-import com.monitor.cloudmessage.config.SDKCloudInitConfig;
-import com.monitor.cloudmessage.config.SDKIDynamicParams;
 
 
 /**
@@ -29,9 +21,6 @@ import com.monitor.cloudmessage.config.SDKIDynamicParams;
  */
 public class App extends Application {
     public static String sSDKAid = "187277";
-    public static String sdkAid = "240734";
-    public static String sdkToken = "aa77e9b33b8b45a3ab7c8efb94728a31";
-
     public static String sToken = "token";
     public static String did = "device_id";
     public static String uid = "user_id";
@@ -47,7 +36,12 @@ public class App extends Application {
         super.onCreate();
     }
 
-    public static void init(Application application) {
+    /**
+     * 初始化APM监控，不会立即采集数据
+     *
+     * @param application
+     */
+    public static void initMonitor(Application application) {
         if (hasInit) {
             return;
         }
@@ -57,7 +51,7 @@ public class App extends Application {
     }
 
     /**
-     * ApmInsight崩溃监控初始化
+     * 崩溃监控初始化
      */
     public static void initCrash(Application application) {
         MonitorCrash.Config config = MonitorCrash.Config.app(sSDKAid)
@@ -96,7 +90,7 @@ public class App extends Application {
     }
 
     /**
-     * ApmInsight性能监控初始化
+     * 性能监控初始化
      */
     public static void initApmInsight(Application application) {
         //必须放到Application的onCreate里面，会注册监听生命周期，不涉及数据采集和隐私合规问题
@@ -106,7 +100,7 @@ public class App extends Application {
     }
 
     /**
-     * 在隐私合规后调用，开始采集数据启动监控
+     * 启动APM监控，在隐私合规后调用，开始采集数据
      */
     public static void startMonitor(Application application) {
         if (hasStart) {
@@ -202,103 +196,6 @@ public class App extends Application {
             }
         });
         ApmInsight.getInstance().start(builder.build());
-
-        initSDKMonitor(application);
-    }
-
-    public static void initSDKMonitor(Application application) {
-        //初始化sdk崩溃监控
-        MonitorCrash.Config config = MonitorCrash.Config.sdk(sdkAid)
-//                .token({{AppToken}})// 数据鉴权token，可从平台应用信息处获取，token错误无法上报数据
-                .versionCode(4) // 必须SDK版本号
-                .versionName("1.4") // 必须SDK版本名称
-                .keyWords("a.b.c", "d.e.b") //设置可能出现在崩溃堆栈内的特定字符串（比如包名）不设置不过滤，不支持正则表达式，对Java崩溃和ANR生效
-                .soList("a.so", "b.so", "c.so") //Native崩溃监控，不设置不上报，不支持正则表达式
-                //可选，可以设置自定义did，不设置会使用内部默认的
-                //.dynamicParams(new MonitorCrash.Config.IDynamicParams() {
-                //    @Override
-                //    public String getDid() {//返回空会使用内部默认的did
-                //        return null;
-                //    }
-                //
-                //    @Override
-                //    public String getUserId() {
-                //        return null;
-                //    }
-                //})
-                //可选，添加业务自定义数据，在崩溃详情页展示
-                //.customData(crashType -> {
-                //    HashMap<String, String> map = new HashMap<>();
-                //    map.put("app_custom", "app_value");
-                //    return map;
-                //})
-                //.pageViewTags(map) // 设置PV自定义维度
-                .build();
-        MonitorCrash monitorCrash = MonitorCrash.initSDK(application, config);
-
-        //初始化事件打点
-        SDKEventInitConfig.Builder builder = SDKEventInitConfig.builder()
-                .aid(sdkAid)//平台的aid
-                .token(sdkToken)//平台的token
-                .context(application)//context
-                .channel("channel")//SDK渠道
-                .appVersion("1.0.0")//sdk 的版本号
-                .updateVersionCode("10001")//sdk 的小版本号
-                .hostAid("APM_DEMO")// 宿主App的唯一标识
-                .debugMode(true)//debug模式，会打印测试日志。正式环境设置为release
-                .setDynamicParams(new SDKEventIDynamicParams() {
-                    @Override
-                    public String getDid() {
-                        //必填，返回设备标识 did，也可以使用业务自己的did
-                        return AppLog.getInstance(sSDKAid).getDid();
-                    }
-
-                    @Override
-                    public String getUserId() {
-                        //返回用户标识 user id,没有可以为空
-                        return "";
-                    }
-                });
-        SDKEventManager.init(builder.build());
-
-        initCloud(application);
-
-    }
-
-    public static void initCloud(Application application) {
-
-        //初始化Vlog日志实例。
-        VLogConfig vConfig = new VLogConfig.Builder(application)
-                .setLogDirPath(application.getFilesDir() + "/Vlog/" + sdkAid)//sSDKAid 为平台申请的aid
-                .setMaxDirSize(5 * 1024 * 1024)  // max directory size
-                .setSubProcessMaxDirSizeRatio(0.1f) // max directory size of each instance for sub process
-                .setLogFileExpDays(14) // log file expired days
-                .build();
-        VLog.createInstance(vConfig, sdkAid);
-
-        //初始化回捞组件
-        SDKCloudInitConfig.Builder builder = SDKCloudInitConfig.builder();
-        builder.aid(sdkAid);//平台的aid
-        builder.token(sdkToken);//平台的token
-        builder.context(application);//上下文context
-        builder.debugMode(true);//测试阶段设置为debug有log排查日志。线上配置为false
-        builder.channel("channel");// sdk渠道
-        builder.updateVersionCode("1.1.4");// sdk的版本号
-        builder.setDynamicParams(new SDKIDynamicParams() {
-            @Override
-            public String getDid() {
-                //必填，设备唯一标识 did。当前写法为内部默认生成的did,也可以返回业务自己定义的did
-                return did;
-            }
-
-            @Override
-            public String getUserId() {
-                //用户唯一标识userid,可以为空
-                return "";
-            }
-        });
-        //拉取平台配置的回捞命令时机：回捞组件默认初始化时候会拉取一次命令.
-        SDKCloudManager.getInstance().init(builder.build());
     }
 
 }

@@ -1,7 +1,5 @@
 package com.example.apminsightdemo;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -9,10 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import com.apm.insight.log.ILog;
 import com.apm.insight.log.VLog;
-import com.apmplus.sdk.cloudmessage.SDKCloudManager;
-import com.apmplus.sdk.event.SDKEventManager;
 import com.bytedance.apm.insight.ApmInsightAgent;
 import com.bytedance.memory.test.OOMMaker;
 import com.example.apminsightdemo.fragment.ListFragment;
@@ -143,36 +138,6 @@ public class MainActivity extends FragmentActivity {
                 ApmInsightAgent.monitorEvent("event1", dimension, metric);
             }
         }));
-        lvItemList.add(new ListFragment.LvItem("SDK事件上报模拟", new ListFragment.OnClick() {
-            @Override
-            public void click(View view) {
-                HashMap<String, String> dimension = new HashMap<>();
-                //维度值
-                dimension.put("key1", "value1");
-                dimension.put("key2", "value2");
-                HashMap<String, Double> metric = new HashMap<>();
-                //指标值 指标值必须为数字
-                metric.put("metric1", (double) 10);
-                metric.put("metric2", 8.8);
-                SDKEventManager.getSDKMonitor(App.sdkAid).monitorEvent("event_test", dimension, metric);
-            }
-        }));
-
-        lvItemList.add(new ListFragment.LvItem("SDK日志打印主动上报", new ListFragment.OnClick() {
-            @Override
-            public void click(View view) {
-                //日志打印
-                ILog iLog = VLog.getInstance(App.sdkAid);
-                iLog.i("sdk_cloud", "test i");
-                iLog.e("sdk_cloud", "test e");
-
-                //可选：除了支持日志回捞，在用户反馈情况也支持主动上报Vlog日志。主动上报的日志在平台的 单点追查->自定义文件 输入did可以查询到日志
-                //上报前一小时的Vlog日志。上报日志会消耗平台事件量，注意合理使用
-                SDKCloudManager.getSDKCloud(App.sdkAid).uploadVlog(System.currentTimeMillis() - 60 * 60 * 1000, System.currentTimeMillis());
-
-            }
-        }));
-
 
         mFragment.addAllList(lvItemList);
     }

@@ -39,15 +39,6 @@ dependencies {
     //apm稳定性组件
     implementation 'com.volcengine:apm_insight_crash:1.5.0'
 
-    //sdk事件监控
-    implementation "com.volcengine:apm_insight_sdk:1.1.8"
-    //sdk回捞
-    implementation "com.volcengine:apm_insight_cloud:0.0.3.sdk"
-
-
-
-
-
     implementation "com.squareup.okhttp3:okhttp:3.14.0"
 
     implementation 'com.android.support:appcompat-v7:28.0.0'

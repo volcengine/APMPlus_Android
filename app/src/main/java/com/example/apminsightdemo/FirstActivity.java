@@ -1,7 +1,6 @@
 package com.example.apminsightdemo;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +16,10 @@ import java.util.List;
 
 
 /**
- * MainActivity
+ * FirstActivity
  *
  * @author steven
- * @date 2011/11/11
+ * @date 2023/11/11
  */
 public class FirstActivity extends FragmentActivity {
     private ListFragment mFragment;
@@ -44,14 +43,14 @@ public class FirstActivity extends FragmentActivity {
     private void initData() {
 
         List<ListFragment.LvItem> lvItemList = new ArrayList<>();
-        lvItemList.add(new ListFragment.LvItem("初始化", new ListFragment.OnClick() {
+        lvItemList.add(new ListFragment.LvItem("初始化APMPlus", new ListFragment.OnClick() {
             @Override
             public void click(View view) {
-                App.init(getApplication());
+                App.initMonitor(getApplication());
                 Toast.makeText(FirstActivity.this, "初始化完成", Toast.LENGTH_SHORT).show();
             }
         }));
-        lvItemList.add(new ListFragment.LvItem("启动监控", new ListFragment.OnClick() {
+        lvItemList.add(new ListFragment.LvItem("启动APMPlus监控", new ListFragment.OnClick() {
             @Override
             public void click(View view) {
                 showDialog();
@@ -84,7 +83,6 @@ public class FirstActivity extends FragmentActivity {
                 .setNegativeButton("不同意", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                     }
                 })
                 .create();
