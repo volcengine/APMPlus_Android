@@ -46,6 +46,7 @@ public class FirstActivity extends FragmentActivity {
         lvItemList.add(new ListFragment.LvItem("初始化APMPlus", new ListFragment.OnClick() {
             @Override
             public void click(View view) {
+                //初始化APM监控，可以在Application的onCreate执行
                 App.initMonitor(getApplication());
                 Toast.makeText(FirstActivity.this, "初始化完成", Toast.LENGTH_SHORT).show();
             }
@@ -63,7 +64,7 @@ public class FirstActivity extends FragmentActivity {
 
 
     /**
-     * 模拟用户协议和隐私协议弹窗，用户点击同一后开启监控
+     * 模拟用户协议和隐私协议弹窗，用户点击同意后开启监控
      */
     private void showDialog() {
         AlertDialog alertDialog = new AlertDialog.Builder(FirstActivity.this)
@@ -76,6 +77,7 @@ public class FirstActivity extends FragmentActivity {
                 .setPositiveButton("同意", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        //开始APM监控，并采集数据，需要在同意隐私合规后调用
                         App.startMonitor(getApplication());
                         startActivity(new Intent(FirstActivity.this,MainActivity.class));
                     }
