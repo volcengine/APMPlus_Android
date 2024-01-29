@@ -25,8 +25,6 @@ public class App extends Application {
     public static String did = "device_id";
     public static String uid = "user_id";
 
-    public static final String TAG = App.class.getSimpleName();
-
     public static MonitorCrash mMonitorCrash;
     private static boolean hasStart;
     private static boolean hasInit;
