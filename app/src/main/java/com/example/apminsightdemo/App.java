@@ -32,14 +32,15 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        initMonitor(this);
     }
 
     /**
-     * 初始化APM监控，不会立即采集数据
+     * 初始化APM监控，不会立即采集数据，需要放到Application的onCreate执行
      *
      * @param application
      */
-    public static void initMonitor(Application application) {
+    private void initMonitor(Application application) {
         if (hasInit) {
             return;
         }

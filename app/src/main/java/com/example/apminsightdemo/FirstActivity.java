@@ -43,14 +43,6 @@ public class FirstActivity extends FragmentActivity {
     private void initData() {
 
         List<ListFragment.LvItem> lvItemList = new ArrayList<>();
-        lvItemList.add(new ListFragment.LvItem("初始化APMPlus", new ListFragment.OnClick() {
-            @Override
-            public void click(View view) {
-                //初始化APM监控，可以在Application的onCreate执行
-                App.initMonitor(getApplication());
-                Toast.makeText(FirstActivity.this, "初始化完成", Toast.LENGTH_SHORT).show();
-            }
-        }));
         lvItemList.add(new ListFragment.LvItem("启动APMPlus监控", new ListFragment.OnClick() {
             @Override
             public void click(View view) {
