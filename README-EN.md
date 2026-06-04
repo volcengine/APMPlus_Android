@@ -13,3 +13,7 @@ This is an example of APMPlus SDK. Enter official website to read the introducti
 
 ### License
 APMPlus_Android is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
+
+## Security and privacy
+This project takes security seriously.
+For vulnerability reporting and supported versions, see [SECURITY.md](SECURITY.md)
