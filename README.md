@@ -13,3 +13,7 @@
 2. 然后修改demo里的Aid进行测试。
 ### 开源许可协议
 APMPlus_Android 使用 MIT 协议，具体内容查看 [LICENSE](LICENSE)
+
+## Security and privacy
+This project takes security seriously.
+For vulnerability reporting and supported versions, see [SECURITY.md](SECURITY.md)
